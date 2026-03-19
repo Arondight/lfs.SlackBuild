@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+#
+# Copyright © 2025 Qin Fandong
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the “Software”), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# *** UPDATE THESE WITH EACH BUILD ***
+# {
+PKGNAM='man-pages'
+VERSION='6.15'
+ARCH="${ARCH:-noarch}"
+BUILD="${BUILD:-1}"
+SRCTYPE='tar.xz'
+# }
+
+# Set initial variables
+CWD=$(dirname $(readlink -f "$0"))
+SOURCE="${PKGNAM}-${VERSION}.${SRCTYPE}"
+PKGTYPE="${PKGTYPE:-txz}"
+TMP="${TMP:-/tmp}"
+PKG="${TMP}/package-${PKGNAM}-${VERSION}-${ARCH}"
+MAKEFLAGS="-j$(nproc)"
+
+cd "$CWD"
+
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [[ -n "$PRINT_PACKAGE_NAME" ]]
+then
+  echo "$SOURCE"
+  exit 0
+fi
+
+# location to build the source
+if [[ ! -d "$TMP" ]]
+then
+  mkdir -p "$TMP"
+fi
+
+if [[ -d "$PKG" ]]
+then
+  rm -rf "$PKG"
+fi
+
+mkdir -p "$PKG"
+
+# Prepare
+{
+  if [[ -d "./${PKGNAM}-${VERSION}" ]]
+  then
+    rm -rf "./${PKGNAM}-${VERSION}" 
+  fi
+
+  tar -xf "$SOURCE"
+  cd "./${PKGNAM}-${VERSION}"
+  rm -vf ./man3/crypt*
+}
+
+# Build
+{
+  :
+}
+
+# Check
+{
+  :
+}
+
+# Install
+{
+  chown -R root .
+
+  make -R GIT=false prefix=/usr DESTDIR="$PKG" install
+}
+
+# Make packages
+{
+  mkdir -p "${PKG}/usr/doc/${PKGNAM}-${VERSION}/"
+  mkdir -p "${PKG}/install/"
+
+  install -Dm 0755 "${CWD}/${PKGNAM}.SlackBuild" \
+                   "${PKG}/usr/doc/${PKGNAM}-${VERSION}/${PKGNAM}.SlackBuild"
+  install -Dm 0644 "${CWD}/slack-desc" "${PKG}/install/slack-desc"
+  install -Dm 0755 "${CWD}/doinst.sh" "${PKG}/install/doinst.sh"
+
+  cd "$PKG"
+  makepkg -l y -c n "${TMP}/${PKGNAM}-${VERSION}-${ARCH}-${BUILD}.${PKGTYPE}"
+}
+
+# Clean
+{
+  rm -rf "$PKG"
+  rm -rf "${CWD}/${PKGNAM}-${VERSION}"
+}
