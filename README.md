@@ -36,3 +36,26 @@ installpkg /tmp/pkgtools-15.0-noarch-42.txz
 ```
 
 Then build LFS system.
+
+## Bootup LFS system
+
+In host system, mount LFS device, for example.
+
+```
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+sda      8:0    0 119.2G  0 disk
+├─sda1   8:1    0   512M  0 part /mnt/lfs/boot/efi
+├─sda2   8:2    0     2G  0 part /mnt/lfs/boot
+└─sda3   8:3    0 116.7G  0 part /mnt/lfs
+```
+
+In LFS system environment, create initramfs, install and config bootloader.
+
+```bash
+cd /boot/
+mkinitramfs 6.12.44
+grub-install --target=x86_64-efi --removable --efi-directory=/boot/efi/ --boot-directory=/boot/efi/
+grub-mkconfig -o /boot/efi/grub/grub.cfg
+```
+
+Then bootup LFS system.
