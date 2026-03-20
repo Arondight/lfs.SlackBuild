@@ -60,3 +60,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 Then bootup LFS system.
+
+![Bootloader Screen](screenshot-bootloader-screen.png)
+
+![Login Screen](screenshot-login-screen.png)
