@@ -16,12 +16,13 @@ Make sure you have [Git](https://git-scm.com/) and [Git LFS](https://git-lfs.c
 
 ```bash
 git clone https://github.com/Arondight/lfs.SlackBuild.git
+cd ./lfs.SlackBuild/
 git lfs pull
 ```
 
 ## Build pkgtools
 
-After finishing Chapter **III: Building the LFS Cross Toolchain and Temporary Tools** (**III. 构建 LFS 交叉工具链和临时工具**) in the LFS book, copy the `installpkg` and `makepkg` scripts to `/usr/sbin` in the chroot environment so they can be used to build pkgtools.
+After finishing Chapter **III: Building the LFS Cross Toolchain and Temporary Tools** (**III. 构建 LFS 交叉工具链和临时工具**) in the LFS book, copy the `installpkg` and `makepkg` scripts to `/usr/sbin/` in the chroot environment so they can be used to build pkgtools.
 
 ```bash
 cd ./pkgtools/
@@ -49,13 +50,13 @@ sda      8:0    0 119.2G  0 disk
 └─sda3   8:3    0 116.7G  0 part /mnt/lfs
 ```
 
-In LFS system environment, create initramfs, install and config bootloader.
+In LFS system, create initramfs, install and config bootloader.
 
 ```bash
 cd /boot/
 mkinitramfs 6.12.44
-grub-install --target=x86_64-efi --removable --efi-directory=/boot/efi/ --boot-directory=/boot/efi/
-grub-mkconfig -o /boot/efi/grub/grub.cfg
+grub-install --target=x86_64-efi --removable --efi-directory=/boot/efi/ --boot-directory=/boot/
+grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 Then bootup LFS system.
