@@ -54,7 +54,7 @@ In LFS system, create initramfs, install and config bootloader.
 
 ```bash
 cd /boot/
-mkinitramfs 6.12.44
+mkinitramfs 6.16.1
 grub-install --target=x86_64-efi --removable --efi-directory=/boot/efi/ --boot-directory=/boot/
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
