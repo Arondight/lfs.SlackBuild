@@ -23,7 +23,7 @@
 # *** UPDATE THESE WITH EACH BUILD ***
 # {
 PKGNAM='arch-install-scripts'
-VERSION='28'
+VERSION='31-1'
 ARCH="${ARCH:-noarch}"
 BUILD="${BUILD:-1}"
 SRCTYPE='tar.gz'

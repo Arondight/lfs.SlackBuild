@@ -23,7 +23,7 @@
 # *** UPDATE THESE WITH EACH BUILD ***
 # {
 PKGNAM='linux'
-VERSION='6.12.44'
+VERSION='6.16.1'
 ARCH="${ARCH:-x86_64}"
 BUILD="${BUILD:-1}"
 SRCTYPE='tar.xz'
