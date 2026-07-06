@@ -9,9 +9,6 @@ tags
 # log files
 *.log
 
-# zip files
-*.gz
-
 # git
 !.gitignore
 
